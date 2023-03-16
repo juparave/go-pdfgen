@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+      body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Invoice #{{ .ID }}</h1>
+    <p>Customer: {{ .Customer.Name }}</p>
+    <p>Date: {{ .Date.Format "2006-01-02" }}</p>
+    <table>
+      <tr>
+        <th>Article</th>
+        <th>Price</th>
+      </tr>
+      {{ range .Articles }}
+      <tr>
+        <td>{{ .Name }}</td>
+        <td>{{ .Price }}</td>
+      </tr>
+      {{ end }}
+    </table>
+    <p>Total: {{ .Total }}</p>
+    <p>Tax: {{ .Tax }}</p>
+  </body>
+</html>
+
