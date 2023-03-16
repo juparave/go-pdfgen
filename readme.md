@@ -10,6 +10,8 @@ Dependencies
 
 * wkhtmltopdf
 
+Usage: https://wkhtmltopdf.org/usage/wkhtmltopdf.txt
+
 On MacOs install with:
 
     $ brew install wkhtmltopdf
