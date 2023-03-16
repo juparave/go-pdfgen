@@ -6,10 +6,11 @@
     <title>Invoice</title>
   </head>
   <body>
+    <img src="https://shop.tiendamaster.com.mx/img/logo.png" alt="Logo">
     <h1>Invoice #{{ .ID }}</h1>
     <p>Customer: {{ .Customer.Name }}</p>
     <p>Date: {{ .Date.Format "2006-01-02" }}</p>
-    <table>
+    <table width="100%">
       <tr>
         <th>Article</th>
         <th>Price</th>
