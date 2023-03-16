@@ -1,0 +1,43 @@
+# Using alpine v3.14 which still has wkhtmltopdf
+# docker build --rm -f Dockerfile -t go-genpdf:latest .
+# docker run -d -p 8081:8080 --name go-genpdf-run --restart unless-stopped go-genpdf
+FROM golang:1.18-alpine3.14 AS builder
+
+# Add Git and other dependencies required for wkhtmltopdf
+RUN apk update && apk add --no-cache git wkhtmltopdf
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the go.mod and go.sum files to download dependencies
+COPY go.mod go.sum ./
+
+# Download dependencies
+RUN go mod download
+
+# Copy the entire source code from the current directory to the working directory inside the container
+COPY . .
+
+# Build the Go app
+RUN go build -o main .
+
+# Start a new stage from the Alpine base image
+FROM alpine:3.14
+
+WORKDIR /app
+
+# Install wkhtmltopdf dependencies
+RUN apk --update --no-cache add wkhtmltopdf
+
+# Copy the binary from the builder stage to the final stage
+COPY --from=builder /app/main /app/main
+
+# Copy the templates folder
+COPY --from=builder /app/templates /app/templates
+
+# Expose the server port
+EXPOSE 8080
+
+# Command to run the executable
+CMD ["/app/main"]
+
